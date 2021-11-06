@@ -1,0 +1,38 @@
+import tensorflow as tf 
+import keras 
+
+def VGG16(in_shape=(224,224,3),classn=3):
+  x_in=input(in_shape)
+
+  x=tf.keras.layers.Conv2D(64,(3,3),activation='relu',padding='same')(x_in)
+  #default of stides inconv2d is 1
+  x=tf.keras.layers.Conv2D(64,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.MaxPooling2D((2,2))(x)
+  #in maxpooling2d strides default is pool_size 
+
+  x=tf.keras.layers.Conv2D(128,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(128,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.MaxPooling2D((2,2))(x)
+
+  x=tf.keras.layers.Conv2D(256,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(256,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(256,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.MaxPooling2D((2,2))(x)
+
+  x=tf.keras.layers.Conv2D(512,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(512,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(512,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.MaxPooling2D((2,2))(x)
+
+  x=tf.keras.layers.Conv2D(512,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(512,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.Conv2D(512,(3,3),activation='relu',padding='same')(x)
+  x=tf.keras.layers.MaxPooling2D((2,2))(x)
+
+  x=tf.keras.layers.Flatten()(x)
+  x=tf.keras.layers.Dense(4096,(1,1),activation='relu')(x)
+  x=tf.keras.layers.Dense(4096,(1,1),activation='relu')(x)
+  x=tf.keras.layers.Dense(classn,(1,1),activation='softmax')(x)
+
+  model =tf.keras.layers.model(inputs=x_in,output=x)
+  return model 
